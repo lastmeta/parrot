@@ -1,0 +1,6 @@
+computer 1: # by ip or network name
+  location 1 to backup: destination folder
+  location 2 to backup: destination folder
+computer 2:
+  location 1 to backup: destination folder
+  location 2 to backup: destination folder
