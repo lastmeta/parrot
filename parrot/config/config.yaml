@@ -4,3 +4,8 @@ computer 1: # by ip or network name
 computer 2:
   location 1 to backup: destination folder
   location 2 to backup: destination folder
+
+# backup can be implied
+//W000010974/Users/jmiller/Documents/share: work
+//silver/Users/jmiller: silver
+//jm-tv/Users/jmiller: tv
