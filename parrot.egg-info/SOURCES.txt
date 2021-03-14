@@ -1,0 +1,13 @@
+setup.py
+parrot/__init__.py
+parrot.egg-info/PKG-INFO
+parrot.egg-info/SOURCES.txt
+parrot.egg-info/dependency_links.txt
+parrot.egg-info/entry_points.txt
+parrot.egg-info/requires.txt
+parrot.egg-info/top_level.txt
+parrot/cli/__init__.py
+parrot/cli/parrot.py
+parrot/config/__init__.py
+parrot/lib/__init__.py
+parrot/lib/hash.py

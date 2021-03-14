@@ -11,7 +11,7 @@ setuptools.setup(
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
-    install_requires=['click', PyYaml],
+    install_requires=['click', 'PyYaml', 'boxset'],
     python_requires='>=3.5.2',
     author='Jordan Miller',
     author_email="paradoxlabs@protonmail.com",
@@ -21,4 +21,9 @@ setuptools.setup(
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
+    entry_points={
+        "console_scripts": [
+            "parrot = parrot.cli.parrot:main",
+        ]
+    },
 )
