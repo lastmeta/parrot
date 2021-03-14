@@ -1,0 +1,8 @@
+#host: shared_folder
+SILVER: Backup
+JM-TV: Backup
+
+# backup can be implied
+#//W000010974/Users/jmiller/Documents/share: work
+#//silver/Users/jmiller: silver
+#//jm-tv/Users/jmiller: tv

@@ -1,3 +1,35 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pytest*
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+bundle.pem
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# DotEnv configuration
+.env
+
+# Pycharm
+.idea
+
+# Jupyter NB Checkpoints
+.ipynb_checkpoints/
+
+# exclude backup from source control by default
 backup/*
-personal.yaml
-shares.yaml
+!backup/.gitkeep
