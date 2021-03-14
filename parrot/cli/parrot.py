@@ -16,7 +16,7 @@ def help():
 
 @main.command()
 @click.argument('forever', type=bool, required=False, default=True)
-@click.argument('throttle', type=bool, required=False, default=60)
+@click.argument('throttle', type=int, required=False, default=60)
 def run(forever=True, throttle=60):
     ''' backsup all shares in config '''
     from parrot.lib.parrot import Parrot

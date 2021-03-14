@@ -11,13 +11,20 @@ def find_new_and_updated_files(host: str, share: str, backup_path: str):
     ''' backup should have a folder for each host, and backup folder '''
     import os
     remote_root = f'//{host}/{share}'
+    #if not os.path.exists(backup_path):
+
+    os.makedirs(os.path.join(backup_path), exist_ok=True)
     local_root = os.path.join(backup_path, host, share)
-    for directory, folders, files in os.walk(os.path.join(f'//{machine}', share)):
+    for directory, folders, files in os.walk(remote_root):
         path_folders = directory.split(remote_root)[-1]
+        print('lr', local_root, path_folders, directory)
         for folder in folders:
-            mkdir(os.path.join(backup_path, path_folders, folder), exists_ok=True)
+            print('f',folder,os.path.join(local_root, path_folders, folder))
+            if not os.path.exists(os.path.join(local_root, path_folders, folder)):
+                print(os.path.join(local_root, path_folders, folder))
+                os.mkdir(os.path.join(local_root, path_folders, folder))
         for file in files:
-            local_path = os.path.join(backup_path, path_folders, file)
+            local_path = os.path.join(local_root, path_folders, file)
             if os.path.exists(local_path):
                 # notice a feature: if you change a modify a file locally it is
                 # not overridden until the remote source is modified again

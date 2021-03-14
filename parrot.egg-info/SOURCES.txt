@@ -11,3 +11,4 @@ parrot/cli/parrot.py
 parrot/config/__init__.py
 parrot/lib/__init__.py
 parrot/lib/hash.py
+parrot/lib/parrot.py
