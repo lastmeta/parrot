@@ -18,3 +18,4 @@ dist/
 # exclude backup from source control by default
 backup/*
 !backup/.gitkeep
+shares.yaml
