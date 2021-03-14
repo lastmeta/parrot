@@ -16,18 +16,8 @@ def help():
 
 @main.command()
 @click.argument('forever', type=bool, required=False, default=True)
-def run(forever=True):
+@click.argument('throttle', type=bool, required=False, default=60)
+def run(forever=True, throttle=60):
     ''' backsup all shares in config '''
-    import time
-    from parrot import config
-    from parrot.lib import find_new_and_updated_files
-    if not forever:
-        print('running 1 time')
-        for host, share in config.get('shares'):
-            find_new_and_updated_files(host, share)
-        return
-    while True:
-        print('running forever')
-        for host, share in config.get('shares'):
-            find_new_and_updated_files(host, share)
-        time.sleep(60)
+    from parrot.lib.parrot import Parrot
+    Parrot().run(forever, throttle)

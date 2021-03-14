@@ -1,2 +1,5 @@
 ## shares.yaml
 # host: share
+
+#backup path: default
+backup path: E:\BACKUP

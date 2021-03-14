@@ -1,15 +1,23 @@
-def find_new_and_updated_files(host: str, share: str):
+def get_backup_path():
+    from parrot import config
+    bk_path = config.get()['backup path']
+    if bk_path == 'default':
+        return config.root('..', 'backup')
+    else:
+        return bk_path
+
+
+def find_new_and_updated_files(host: str, share: str, backup_path: str):
     ''' backup should have a folder for each host, and backup folder '''
     import os
-    from parrot import config
     remote_root = f'//{host}/{share}'
-    local_root = config.root('..', 'backup', remote_root.replace('/', ''))
+    local_root = os.path.join(backup_path, host, share)
     for directory, folders, files in os.walk(os.path.join(f'//{machine}', share)):
         path_folders = directory.split(remote_root)[-1]
         for folder in folders:
-            mkdir(config.root('..', 'backup', path_folders, folder), exists_ok=True)
+            mkdir(os.path.join(backup_path, path_folders, folder), exists_ok=True)
         for file in files:
-            local_path = config.root('..', 'backup', path_folders, file)
+            local_path = os.path.join(backup_path, path_folders, file)
             if os.path.exists(local_path):
                 # notice a feature: if you change a modify a file locally it is
                 # not overridden until the remote source is modified again
@@ -20,6 +28,8 @@ def find_new_and_updated_files(host: str, share: str):
 
 
 def copy_file(remote_path, local_path):
+    import os
+    import shutil
     shutil.copy2(
         os.path.join(remote_path),
         os.path.join(local_path))
