@@ -20,3 +20,10 @@ def run(forever=True, throttle=60):
     ''' backsup all shares in config '''
     from parrot.lib.parrot import Parrot
     Parrot().run(forever, throttle)
+
+
+@main.command()
+def prune():
+    ''' removes all empty directories in the backup location '''
+    from parrot.lib import prune_empty_directories
+    prune_empty_directories()

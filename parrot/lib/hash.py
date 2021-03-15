@@ -1,4 +1,3 @@
-''' unused '''
 # should save local and remote has in database and only get this if missing (upon copy)...
 #localhash = hash_file_at_unc(local_path)
 #remote_path = os.path.join(diretory, file)
