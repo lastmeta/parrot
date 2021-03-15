@@ -19,5 +19,5 @@ class Parrot(object):
             run_once(0)
             return
         while True:
-            print('running forever')
+            print('running forever', end='\r')
             run_once(throttle)

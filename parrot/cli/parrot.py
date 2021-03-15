@@ -9,8 +9,7 @@ def main():
 @main.command()
 def help():
     '''open this file to modify'''
-    print(
-        'after installing this package using python setup.py develop... ')
+    print('after installing this package using python setup.py develop... ')
     print(os.popen(f'explorer {os.path.dirname(os.path.abspath(__file__))}').read())
 
 
