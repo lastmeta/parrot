@@ -6,4 +6,11 @@
 ## this allows for avoiding backup of the exact same file no matter where its located.
 # allow duplicates: False
 backup path: E:\BACKUP\
+
+# implementing
 allow duplicates: True
+
+# unimplemented
+## now you can move things around in the backup folders without creating duplicates
+#keep latest: True  # works this way by default, no need to code other functionality.
+#remove empty folders: True  # just use `parrot prune` from cli for this.
