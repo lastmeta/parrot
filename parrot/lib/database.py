@@ -4,7 +4,7 @@ import pandas as pd
 
 
 def get_schema(database: pd.DataFrame = None) -> list:
-    if database:
+    if database is not None:
         return database.columns.tolist()
     return ['path', 'hash', 'removed', 'created', 'timestamp']
 

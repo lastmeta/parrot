@@ -2,7 +2,7 @@ import os
 import time
 import pandas as pd
 from parrot import lib
-
+from parrot import config
 
 class Parrot(object):
     """docstring for Parrot"""
@@ -11,9 +11,13 @@ class Parrot(object):
         self.allow_duplicates = lib.get_allow_duplicates()
         self.database = lib.database.get()
         self.key, self.schema = lib.database.get_key_schema(self.database)
+        self.save_flag = False
 
     def save(self):
-        lib.database.save(self.database)
+        if self.save_flag:
+            print('saving', self.database)
+            lib.database.save(self.database)
+            self.save_flag = False
 
     def run(self, forever=True, throttle=60):
         def run_once(throttle=60):
@@ -23,6 +27,7 @@ class Parrot(object):
                 self.find_new_and_updated_files(host, share)
                 #except Exception as e:
                 #    print(host, share, 'unreachable:', e)
+                self.save()
                 time.sleep(throttle)
 
         if not forever:
@@ -42,10 +47,10 @@ class Parrot(object):
                     os.mkdir(os.path.join(local_root, path_folders, folder))
 
         def create_files(files):
-            def remove_is_newer(local_path, remote_time):
+            def remote_is_newer(local_path, remote_time):
                 # notice a feature: if you change a modify a file locally it is
                 # not overridden until the remote source is modified again
-                local_time = lib.get_time(unc_path=local_path, kind='modified')
+                local_time = lib.get_time(unc_path=local_path)
                 return remote_time > local_time
 
             def remote_newer_that_removed(local_path, remote_time):
@@ -55,16 +60,17 @@ class Parrot(object):
                 database return True, else return False
                 '''
                 return remote_time > self.database[
-                    self.database[self.key]==local_path
-                ]['timestamp']
+                    self.database[self.key]==local_path.replace('\\','\\\\')
+                ]['timestamp'][0] or 0
 
             def copy_and_record(remote_path, local_path):
+                self.save_flag = True
                 lib.copy_file(remote_path, local_path)
                 local_hash = lib.hash.this_file(unc_path=local_path)
-                self.databaase = lib.database.upsert(
+                self.database = lib.database.upsert(
                     database=self.database,
                     record={
-                        self.key: local_path,
+                        self.key: local_path.replace('\\', '\\\\'),
                         'hash': local_hash,
                         'removed': False,
                         'created': time.time(),
@@ -74,12 +80,12 @@ class Parrot(object):
             for file in files:
                 remote_path = os.path.join(directory, file)
                 local_path = os.path.join(local_root, path_folders, file)
-                remote_time = lib.get_time(unc_path=remote_path, kind='modified')
+                remote_time = lib.get_time(unc_path=remote_path)
                 if os.path.exists(local_path):
                     if remote_is_newer(local_path, remote_time):
                         copy_and_record(remote_path, local_path)
                 else:
-                    if local_path in self.database[self.key]:
+                    if local_path.replace('\\','\\\\') in self.database[self.key].values.tolist():
                         if remote_newer_that_removed(local_path, remote_time):
                             copy_and_record(remote_path, local_path)
                     else:
@@ -98,13 +104,15 @@ class Parrot(object):
         if self.allow_duplicates:
             return
         duples = self.database[
-            (self.database['removed']=='False')&
-            (self.database[self.key]!=local_path)&
+            (self.database['removed']==False)&
+            (self.database[self.key]!=local_path.replace('\\', '\\\\'))&
             (self.database['hash']==local_hash)]
         for ix, duple in duples.iterrows():
+            print('removing file', duple[self.key])
             os.remove(duple[self.key])
-            self.databaase = lib.database.upsert(
+            self.save_flag = True
+            self.database = lib.database.upsert(
                 database=self.database,
                 record={
                     **{k: duple[k] for k in self.schema},
-                    **{'removed': True, 'timestamp': time.time()})
+                    **{'removed': True, 'timestamp': time.time()}})

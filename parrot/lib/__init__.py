@@ -1,3 +1,7 @@
+from parrot.lib import database
+from parrot.lib import hash
+
+
 def get_backup_path():
     from parrot import config
     bk_path = config.get().get('backup path', 'default')
@@ -22,7 +26,8 @@ def copy_file(remote_path, local_path):
     return True
 
 
-def get_time(unc_path, kind='modified'):
+def get_time(unc_path, kind=None):
+    ''' gets the most recent of modified or created '''
     import pathlib
     fname = pathlib.Path(unc_path)
     if fname.exists():
@@ -32,8 +37,7 @@ def get_time(unc_path, kind='modified'):
             return fname.stat().st_ctime
         if kind in ['accessed', 'a', 'access']:
             return fname.stat().st_atime
-        print('unknown kind:', kind, 'using "modified"')
-        return fname.stat().st_mtime
+        return max([fname.stat().st_mtime, fname.stat().st_ctime]) 
 
 
 def prune_empty_directories():

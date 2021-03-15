@@ -8,7 +8,7 @@
 backup path: E:\BACKUP\
 
 # implementing
-allow duplicates: True
+allow duplicates: False
 
 # unimplemented
 ## now you can move things around in the backup folders without creating duplicates

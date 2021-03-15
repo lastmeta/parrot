@@ -8,7 +8,7 @@ develop-eggs/
 dist/
 *.egg-info/
 *.egg
-
+database.csv
 # DotEnv configuration
 .env
 
