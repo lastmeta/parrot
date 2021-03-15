@@ -7,7 +7,7 @@
 #    copy_file(remote_path, local_path)
 
 
-def hash_file(unc_path, mode='md5'):
+def this_file(unc_path, mode='md5'):
     ''' use modified instead, we can get that without pulling the whole file '''
     import hashlib
     h = hashlib.new(mode)

@@ -5,6 +5,7 @@ class Parrot(object):
     """docstring for Parrot"""
     def __init__(self):
         self.backup_path = lib.get_backup_path()
+        self.allow_duplicates = lib.get_allow_duplicates()
 
     def run(self, forever=True, throttle=60):
         def run_once(throttle=60):
@@ -12,7 +13,7 @@ class Parrot(object):
             for host, share in config.get('shares').items():
                 print('contacting:', host, share, end='\r')
                 #try:
-                lib.find_new_and_updated_files(host, share, self.backup_path)
+                lib.find_new_and_updated_files(host, share, self.backup_path, self.allow_duplicates)
                 #except Exception as e:
                 #    print(host, share, 'unreachable:', e)
                 time.sleep(throttle)

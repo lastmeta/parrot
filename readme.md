@@ -14,6 +14,10 @@ Parrot will constantly run, pinging the computers to see if they're up. If it fi
 
 Parrot does not backup a file if it's already somewhere in the backup (name and hash already exist) even if it's at a different location.
 
-Parrot makes a log of everything it backsup.
+Parrot makes a log of everything it backs up.
 
 Parrot will never purge files, but will overwrite them if there are new files with the same name.
+
+## todo
+
+One feature that might be nice is to make a database with a hash for each file it copies. that way you have the option of avoiding copying any file that is already backed up. that way you don't have to worry about redundant backup files.

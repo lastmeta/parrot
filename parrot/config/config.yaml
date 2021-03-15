@@ -1,5 +1,9 @@
-## shares.yaml
+#### shares.yaml
 # host: share
 
-#backup path: default
+#### config.yaml
+# backup path: default  # E:\BACKUP
+## this allows for avoiding backup of the exact same file no matter where its located.
+# allow duplicates: False
 backup path: E:\BACKUP\
+allow duplicates: True
