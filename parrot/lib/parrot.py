@@ -10,7 +10,11 @@ class Parrot(object):
         def run_once(throttle=60):
             import time
             for host, share in config.get('shares').items():
+                print('contacting:', host, share, end='\r')
+                #try:
                 lib.find_new_and_updated_files(host, share, self.backup_path)
+                #except Exception as e:
+                #    print(host, share, 'unreachable:', e)
                 time.sleep(throttle)
 
         from parrot import config
@@ -18,6 +22,6 @@ class Parrot(object):
             print('running 1 time')
             run_once(0)
             return
+        print('running forever')
         while True:
-            print('running forever', end='\r')
             run_once(throttle)
