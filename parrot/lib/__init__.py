@@ -11,19 +11,16 @@ def find_new_and_updated_files(host: str, share: str, backup_path: str):
     ''' backup should have a folder for each host, and backup folder '''
     import os
     remote_root = f'//{host}/{share}'
-    #if not os.path.exists(backup_path):
-
-    os.makedirs(os.path.join(backup_path), exist_ok=True)
+    os.makedirs(os.path.join(backup_path, host, share), exist_ok=True)
     local_root = os.path.join(backup_path, host, share)
     for directory, folders, files in os.walk(remote_root):
-        path_folders = directory.split(remote_root)[-1]
-        print('lr', local_root, path_folders, directory)
+        path_folders = '\\'.join([x for x in directory.split(remote_root)[-1].split('\\') if x])
         for folder in folders:
-            print('f',folder,os.path.join(local_root, path_folders, folder))
             if not os.path.exists(os.path.join(local_root, path_folders, folder)):
-                print(os.path.join(local_root, path_folders, folder))
+                print('creating folder:', os.path.join(local_root, path_folders, folder))
                 os.mkdir(os.path.join(local_root, path_folders, folder))
         for file in files:
+            remote_path = os.path.join(directory, file)
             local_path = os.path.join(local_root, path_folders, file)
             if os.path.exists(local_path):
                 # notice a feature: if you change a modify a file locally it is
@@ -32,11 +29,13 @@ def find_new_and_updated_files(host: str, share: str, backup_path: str):
                 remote_time = get_time(unc_path=remote_path, kind='modified')
                 if remote_time > local_time:
                     copy_file(remote_path, local_path)
-
+            else:
+                copy_file(remote_path, local_path)
 
 def copy_file(remote_path, local_path):
     import os
     import shutil
+    print('copying file:', local_path)
     shutil.copy2(
         os.path.join(remote_path),
         os.path.join(local_path))
