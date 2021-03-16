@@ -15,13 +15,14 @@ class Parrot(object):
 
     def save(self):
         if self.save_flag:
-            print('saving', self.database)
+            print('saving', self.database.shape[0])
             lib.database.save(self.database)
             self.save_flag = False
 
     def run(self, forever=True, throttle=60):
         def run_once(throttle=60):
             for host, share in config.get('shares').items():
+                print('                                            ', end='\r')
                 print('contacting:', host, share, end='\r')
                 #try:
                 self.find_new_and_updated_files(host, share)
