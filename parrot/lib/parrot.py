@@ -61,7 +61,7 @@ class Parrot(object):
                 '''
                 return remote_time > self.database[
                     self.database[self.key]==local_path.replace('\\','\\\\')
-                ]['timestamp'][0] or 0
+                ]['timestamp'].iloc[0] or 0
 
             def copy_and_record(remote_path, local_path):
                 self.save_flag = True
