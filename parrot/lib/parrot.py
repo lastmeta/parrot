@@ -110,7 +110,8 @@ class Parrot(object):
             (self.database['hash']==local_hash)]
         for ix, duple in duples.iterrows():
             print('removing file', duple[self.key])
-            os.remove(duple[self.key])
+            if os.path.exists(duple[self.key]):
+                os.remove(duple[self.key])
             self.save_flag = True
             self.database = lib.database.upsert(
                 database=self.database,
