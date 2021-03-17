@@ -111,7 +111,10 @@ class Parrot(object):
         for ix, duple in duples.iterrows():
             print('removing file', duple[self.key])
             if os.path.exists(duple[self.key]):
-                os.remove(duple[self.key])
+                try:
+                    os.remove(duple[self.key])
+                except PermissionError as e:
+                    print('unable to delete', duple[self.key], 'due to PermissionError:', e)
             self.save_flag = True
             self.database = lib.database.upsert(
                 database=self.database,
