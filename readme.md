@@ -12,8 +12,6 @@ Now you have a backup of all your important data.
 
 Parrot will constantly run, pinging the computers to see if they're up. If it finds that they are it will constantly watch the folders that belong to that computer and if any new files show up it will get copied to the backup location. If any files change they will replace the existing files at the backup location.
 
-Parrot does not backup a file if it's already somewhere in the backup (name and hash already exist) even if it's at a different location.
+What if the same file it backsup already exists in the backup? Parrot will delete the old one so there's no unnecessary redundancy, a feature that can be turned off via the config. That way you can rearrange files in a folder meant to be backedup and the backup location will match your arrangement.
 
-Parrot makes a log of everything it backs up.
-
-Parrot will never purge files, but will overwrite them if there are new files with the same name.
+Parrot prints a log of everything it backs up.
