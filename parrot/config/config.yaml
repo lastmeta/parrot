@@ -5,7 +5,7 @@
 # backup path: default  # E:\BACKUP
 ## this allows for avoiding backup of the exact same file no matter where its located.
 # allow duplicates: False
-backup path: E:\BACKUP\
+backup path: G:\BACKUP\
 
 # implementing
 allow duplicates: False

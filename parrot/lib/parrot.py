@@ -81,7 +81,10 @@ class Parrot(object):
             for file in files:
                 remote_path = os.path.join(directory, file)
                 local_path = os.path.join(local_root, path_folders, file)
-                remote_time = lib.get_time(unc_path=remote_path)
+                try:
+                    remote_time = lib.get_time(unc_path=remote_path)
+                except OSError as e:
+                    remote_time = 0
                 if os.path.exists(local_path):
                     if remote_is_newer(local_path, remote_time):
                         copy_and_record(remote_path, local_path)
