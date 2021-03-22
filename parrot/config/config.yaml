@@ -2,13 +2,18 @@
 # host: share
 
 #### config.yaml
-# backup path: default  # E:\BACKUP
-## this allows for avoiding backup of the exact same file no matter where its located.
-# allow duplicates: False
+# backup path: default
+# database at: default
+
+## backup root path
 backup path: G:\BACKUP\
 
-# implementing
+## database should be located in backup path if you want to be able to cahnge which computer this runs from
+database at: G:\BACKUP\database.csv
+
+## this allows for avoiding backup of the exact same file no matter where its located.
 allow duplicates: False
+
 
 # unimplemented
 ## now you can move things around in the backup folders without creating duplicates
