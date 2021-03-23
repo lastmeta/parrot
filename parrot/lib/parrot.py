@@ -4,8 +4,9 @@ import pandas as pd
 from parrot import lib
 from parrot import config
 
+
 class Parrot(object):
-    """docstring for Parrot"""
+
     def __init__(self):
         self.backup_path = lib.get_backup_path()
         self.allow_duplicates = lib.get_allow_duplicates()
@@ -24,10 +25,7 @@ class Parrot(object):
             for host, share in config.get('shares').items():
                 print('                                            ', end='\r')
                 print('contacting:', host, share, end='\r')
-                #try:
                 self.find_new_and_updated_files(host, share)
-                #except Exception as e:
-                #    print(host, share, 'unreachable:', e)
                 self.save()
                 time.sleep(throttle)
 
@@ -65,18 +63,19 @@ class Parrot(object):
                 ]['timestamp'].iloc[0] or 0
 
             def copy_and_record(remote_path, local_path):
-                self.save_flag = True
-                lib.copy_file(remote_path, local_path)
-                local_hash = lib.hash.this_file(unc_path=local_path)
-                self.database = lib.database.upsert(
-                    database=self.database,
-                    record={
-                        self.key: local_path.replace('\\', '\\\\'),
-                        'hash': local_hash,
-                        'removed': False,
-                        'created': time.time(),
-                        'timestamp': time.time()})
-                self.remove_older_duplicates(local_path, local_hash)
+                successfully_copied = lib.copy_file(remote_path, local_path)
+                if successfully_copied:
+                    self.save_flag = True
+                    local_hash = lib.hash.this_file(unc_path=local_path)
+                    self.database = lib.database.upsert(
+                        database=self.database,
+                        record={
+                            self.key: local_path.replace('\\', '\\\\'),
+                            'hash': local_hash,
+                            'removed': not successfully_copied,
+                            'created': time.time(),
+                            'timestamp': time.time()})
+                    self.remove_older_duplicates(local_path, local_hash)
 
             for file in files:
                 remote_path = os.path.join(directory, file)

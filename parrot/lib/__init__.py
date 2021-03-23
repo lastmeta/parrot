@@ -20,9 +20,12 @@ def copy_file(remote_path, local_path):
     import os
     import shutil
     print('copying file:', local_path)
-    shutil.copy2(
-        os.path.join(remote_path),
-        os.path.join(local_path))
+    try:
+        shutil.copy2(
+            os.path.join(remote_path),
+            os.path.join(local_path))
+    except PermissionError as e:
+        print(e)
     return True
 
 
@@ -37,7 +40,7 @@ def get_time(unc_path, kind=None):
             return fname.stat().st_ctime
         if kind in ['accessed', 'a', 'access']:
             return fname.stat().st_atime
-        return max([fname.stat().st_mtime, fname.stat().st_ctime]) 
+        return max([fname.stat().st_mtime, fname.stat().st_ctime])
 
 
 def prune_empty_directories():

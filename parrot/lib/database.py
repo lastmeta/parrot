@@ -11,7 +11,7 @@ def get_schema(database: pd.DataFrame = None) -> list:
 
 def get_key_schema(database: pd.DataFrame = None) -> tuple:
     schema = get_schema(database)
-    return schema[0], schema
+    return 'path', schema
 
 def get_database_path():
     path = config.get().get('database at', 'default')
